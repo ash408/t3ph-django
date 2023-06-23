@@ -1,0 +1,41 @@
+{% extends "view.html"  %}
+
+{% load static %}
+
+{% block content %}
+<form method="POST" action="{% url 'modify' %}">
+{% csrf_token %}
+
+{{ block.super }}
+
+</form>
+{% endblock %}
+
+
+{% if item.attributes %}
+{% block attributes %}
+  {{ data_types | json_script:'data_types' }}
+  {{ item.attributes | json_script:'item.attributes' }}
+{% endblock %}
+{% endif %}
+
+{% if item.lists %}
+{% block lists %}
+  {{ item.lists | json_script:'item.lists' }}
+{% endblock %}
+{% endif %}
+
+{% block dictionaries %}
+  {{ item.dictionaries | json_script:'item.dictionaries' }}
+{% endblock %}
+
+{% block buttons %}
+<script type="text/javascript" src="{% static 'script.js' %}"></script>
+
+<button type="button" id="addList">Add List</button>
+<button type="button" id="addDictionary">Add Dictionary</button>
+{% if item.attributes.data_type == 'encounter'%}
+   <button type="button" id="addEffect">Add Effect</button>
+{% endif%}
+<button type="submit">Save</button>
+{% endblock %}

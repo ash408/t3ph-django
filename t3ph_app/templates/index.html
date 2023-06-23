@@ -1,0 +1,58 @@
+{% extends "base_generic.html" %}
+
+{% block sidebar %}
+  {% if user.is_authenticated %}
+    {% if data_types %}
+    {% if system %}
+    {% if game %}
+    <a href="{% url 'make' %}" class='text-light'>Make Object</a> <br>
+    <a href="{% url 'index' %}" class='text-light'>View All</a>
+      
+      {% for data_type in data_types %}
+      <form method="POST" action="{% url 'search' %}">
+	{% csrf_token %}
+	
+	<input type="hidden" name="filter_key" value="data_type">
+	<input type="hidden" name="filter_value" value="{{data_type}}">
+	<button class='link-button' type="submit"> 
+          {{data_type|title}}
+	</button>
+      </form>
+      {% endfor %}
+      
+      <form method='POST' action="{% url 'search' %}">
+        {% csrf_token %}
+        <label for="name_search">Search</label>
+        <input type="search" id="name_search" name="filter_string">
+      </form>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block header %}
+  {% if alert %}
+    <h1>{{alert|title}}</h1>
+  {% endif %}
+{% endblock %}
+
+{% block footer %}
+  {% if items %}
+  
+  <table>
+    <tr>
+      <th>Data Type</th>
+      <th>Name</th>
+    </tr>
+   
+    {% for item in items %}
+    <tr>
+      <td>{{item.data_type}}</td>
+      <td><a href="view?uid={{item.uid}}">{{item.name|title}}</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  {% endif %}
+{% endblock %}

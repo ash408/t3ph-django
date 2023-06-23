@@ -1,0 +1,38 @@
+{% extends "base_generic.html"%}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    {% if systems %}
+      <h2>System </h2><br>
+    {% endif %}
+
+    {% if games %}
+      <h2>Game </h2><br>
+    {% endif %}
+      
+      <div class=row">
+      <div class='col-sm-10'>
+        <form class="form-check" method="post">
+        {% csrf_token %}
+        
+	{% if systems %}
+	{% for system in systems %}
+          <input class="form-check-input-width: 1.5em" type="radio" id="{{system}}" name="system" value={{system}}>
+	  <label class="form-check-label fs-3" for="{{system}}">{{system|title}}</label><br>
+        {% endfor %}
+	{% endif %}
+	
+	{%if games %}
+	{%for game in games %}
+	  <input class="form-check-input-width: 1.5em" type="radio" id="{{game}}" name="game" value={{game}}>
+	  <label class="form-check-label fs-3" for="{{game}}">{{game|title}}</label><br>
+        {% endfor %}
+	{% endif %}
+          
+	  <div>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+  {% endif %}
+{% endblock %}

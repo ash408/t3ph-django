@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+  {% if user.is_authenticated%}
+  <form class='form-check' method = 'POST'>
+    {% csrf_token %}
+    <label for="system">System</label>
+    <input type="text" id="system" name="system">
+    
+    <br>
+    <label for='game'>Game</label>
+    <input type='text' id='game' name='game'>
+	
+    <br>
+    <button type='submit'>
+      Submit
+    </button>
+  </form>
+  {% endif%}
+
+{% endblock %}

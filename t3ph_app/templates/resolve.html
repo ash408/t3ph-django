@@ -1,0 +1,17 @@
+{% extends "view.html" %}
+
+{% block header%}
+  {{ block.super}}
+  {% if outcome %}
+    <p>Outcome: {{outcome|title}}</p>
+  {% endif %}
+
+{% endblock %}
+
+{% block footer %}
+  {% if items %}
+  <h2>Affected Objects</h2>
+  {% endif %}
+
+  {{ block.super }}
+{% endblock%}

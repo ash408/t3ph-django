@@ -1,0 +1,116 @@
+{% extends "index.html" %}
+
+{% block header %}
+  {{block.super}}
+{% endblock %}
+
+{% block content %}
+{% if detail_items %}
+  {% for item in detail_items %}
+  
+  {% if item.attributes %}
+  <div class='container my-1'>
+    <h2>Attributes</h2>
+    <ul style="list-style-type: none;" id="attributes">
+      {% block attributes %}
+      {% for key, value in item.attributes.items %}
+        
+        <li>{{key|title}}: {{value|title}}</li>
+      
+      {% endfor %}
+      {% endblock %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class='container my-1' id="lists"> 
+  {% if item.lists %}
+    {% block lists %}
+    {% for key, list in item.lists.items %}
+    <h2>{{key|title}}</h2>
+
+      <table>
+	<tr>
+          {% for item in list %}
+	    <td>{{item|title}}</td>
+	  {% endfor %}
+	</tr>
+      </table>
+    {% endfor %}
+    {% endblock %}
+  {% endif %}
+  </div>
+
+  <div class='container my-1' id="dictionaries">  
+  {% if item.dictionaries %}
+    {% block dictionaries %}
+
+    {% for name, dictionary in item.dictionaries.items %}
+    <h2>{{name|title}}</h2>
+      
+      <ul style="list-style-type: none;">
+        {% for key, value in dictionary.items %}	
+	  
+	  <li>{{key|title}}: {{value|title}}</li>
+
+	{% endfor%}
+      </ul>
+    {% endfor %}
+
+    {% endblock %}
+  {% endif %}
+  </div>
+  
+  {% block buttons%}
+  <table>
+    <tr>
+      <td>
+        <a href="{% url 'modify' %}?uid={{item.uid}}" class="btn btn-info" role="button">Modify</a>
+      </td>
+
+      <form method='POST' action='{% url 'copy' %}'>
+	{% csrf_token %}
+
+        <td>
+        <input type='hidden' name='uid' value='{{item.uid}}'>
+        <button class='link-button' type='submit'>
+          Copy
+        </button>
+        </td>
+      </form>
+
+      {% if item.object_type == 'encounter' %}
+      <form method="POST" action="{% url 'resolve' %}">
+        {% csrf_token %}
+    
+	<td>
+        <input type="hidden" name="encounter_uid" value="{{item.uid}}">
+        <button class='link-button' type='submit'>
+          Resolve
+        </button>
+	</td>
+
+      </form>  
+      {% endif %}
+      
+      <form method='POST' action='{% url 'delete' %}'>
+	{% csrf_token %}
+
+        <td>
+        <input type='hidden' name='uid' value='{{item.uid}}'>
+        <button class='link-button' type='submit'>
+          Delete
+        </button>
+        </td>
+      </form>
+
+    </tr>
+  </table>
+  {% endblock %}
+  {% endfor %}
+{% endif%}
+
+<div class='container mt-3'>
+  {% block post-content %} {% endblock %}
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+
+{% block content %}
+  {{ block.super }}
+
+  <form method="POST" action="{% url 'make' %}">
+    {% csrf_token %}
+
+    <label>
+      Name
+      <input type="text" name="name">
+    </label>
+
+    <label>
+      Data Type
+      <select name="data_type">
+        {% for data_type in data_types %}
+	<option value="{{ data_type }}"> {{ data_type|title }} </option>
+	{% endfor %}
+      </select>
+    </label>
+
+    <button type="submit">
+      Submit
+    </button>
+  </form>
+{% endblock %}
