@@ -289,10 +289,14 @@ window.addEventListener("load", function() {
 	      <input type="text" name="dictionary.${title}.target"></input>
 	   </li>
 
-           <li>
-	      e_type:
-	      <input type="text" name="dictionary.${title}.e_type"></input>
-           </li>
+		 <li>
+		 e_type:
+		 <select name="dictionary.${title}.e_type">
+		    <option value="add" selected>Add</option>
+              <option value="sub">Subtract</option>
+              <option value="set">Set</option>
+		 </select>
+		 </li>
 
            <li>
 	      resource:
