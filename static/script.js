@@ -360,11 +360,27 @@ window.addEventListener("load", function() {
 	       dictionaryHTML = ''
 	       for (let key in dictionaries[title]){
 		  value = dictionaries[title][key]
-	          dictionaryHTML += `
-		     <li>
-		        ${key}: 
-			<input type="text" name="dictionary.${title}.${key}" value=${value}></input>
-		     </li>`
+
+			if (key === 'e_type') {
+				dictionaryHTML += `
+				<li>
+		 		e_type:
+		 		<select name="dictionary.${title}.e_type">
+		    			<option value="add" selected>Add</option>
+              			<option value="sub">Subtract</option>
+              			<option value="set">Set</option>
+		 		</select>
+		 		</li>
+				`
+			}
+
+			else {
+	          	dictionaryHTML += `
+		     	<li>
+		        	${key}: 
+				<input type="text" name="dictionary.${title}.${key}" value=${value}></input>
+		     	</li>`
+			}
 	       }
 
 	       dictionariesElem.innerHTML += `
